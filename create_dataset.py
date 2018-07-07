@@ -11,10 +11,8 @@ import shutil
 
 def last_8chars(x):
     """Function that aids at list sorting.
-
       Args:
         x: String name of files.
-
       Returns:
         A string of the last 8 characters of x.
     """
@@ -24,10 +22,8 @@ def last_8chars(x):
 
 def last_3chars(x):
     """Function that aids at list sorting.
-
       Args:
         x: String name of files.
-
       Returns:
         A string of the last 8 characters of x.
     """
@@ -37,10 +33,8 @@ def last_3chars(x):
 
 def get_vid_name(file):
     """Creates the new video name.
-
       Args:
         file: String name of the original image name.
-
       Returns:
         A string name defined by the Subject and Session
         numbers. 
@@ -51,19 +45,16 @@ def get_vid_name(file):
 
 def create_moving_batch(images_list, depth):
     """Creates the list of neutral and emotion-labeled images to be processed.
-
         From the whole list of images of a given session, create an 2 dimensional
         array with neutral and emotion-labeled image names. The quantity of 
         images per index in batch (same for neutral and emotion) is defined by 
         the selected clip depth. From the sequence, the first depth number of 
         images are placed at batch[1], and the last depth number of images at
         batch[0]. 
-
       Args:
         images_list: String array with paths to all images from a given session.
         depth: Integer number of images to be appended in each batch index. It
             must be at most half of the total session quantity of images.
-
       Returns:
         A 2D string array containing the path to the images to be processed later
         to create 3D arrays: 
@@ -83,7 +74,6 @@ def create_moving_batch(images_list, depth):
 def move_images(images_list, src, dest, neu_dest, min_seq_len, depth, t_height,
                 t_width, crop_faces_flag, detector):
     """Creates the Numpy binary files with a 3D array of a sequence of images.
-
       Args:
         images_list: String array with paths to all images from a given Session.
         src: String path to a selected images Session.
@@ -106,7 +96,7 @@ def move_images(images_list, src, dest, neu_dest, min_seq_len, depth, t_height,
     """
 
     # Create neutral and emotion-labeled lists to be processed.
-    batch = create_moving_batch(images_list, min_seq_len, depth)
+    batch = create_moving_batch(images_list, depth)
 
     # Emotion batch
     vid_name = get_vid_name(batch[0][0])
@@ -161,10 +151,8 @@ def move_images(images_list, src, dest, neu_dest, min_seq_len, depth, t_height,
 def get_label(filepath):
     """Returns the label for a given Session by reading its 
         corresponding CSV label file.
-
       Args:
         filepath: String path to the CSV file.
-
       Returns:
         String label name if found, else a -1. 
     """
@@ -184,11 +172,9 @@ def crop_face(image_path, detector):
         image size will be defined by the bounding box returned by the face
         detector. Otherwise, the imagewill be centered cropped by empirically
         found parameters.
-
       Args:
         image_path: String path to the image file.
         detector: MTCNN object
-
       Returns:
         OpenCV image object of the processed image. 
     """
@@ -212,13 +198,11 @@ def gen_emotionsFolders(main_dir, label_main_dir, image_main_dir, emotions_dir,
                         t_height, t_width):
     """Generates a folder of Numpy binary files with 3D arrays of images for each
         label in CK+ database.
-
         Check each Session if the number of images is more than min_seq_len and
         create a 3D array by appending a depth number of images together. Each
         image is resized to (t_height, t_width) from its original size or from 
         a face bounding box if the flag crop_faces is true. Numpy binary files
         are saved in emotions_dir.
-
       Args:
         main_dir: String path to where the labels and images folders are placed.
         label_main_dir: String path to CK+ labels folder
@@ -248,7 +232,7 @@ def gen_emotionsFolders(main_dir, label_main_dir, image_main_dir, emotions_dir,
     start_time = time.time()
     print("Getting images...")
 
-    if crop_faces:
+    if crop_faces=="True" or crop_faces=="1":
         detector = MTCNN()
     else:
         detector = 0
@@ -298,18 +282,18 @@ def gen_emotionsFolders(main_dir, label_main_dir, image_main_dir, emotions_dir,
 
 
 def main(argv):
-
+  
     gen_emotionsFolders(
-        main_dir=str(argv[1]),
-        label_main_dir=str(argv[2]),
-        image_main_dir=str(argv[3]),
-        emotions_dir=str(argv[4]),
-        crop_faces=bool(argv[5]),
-        neutral_label=str(argv[6]),
-        min_seq_len=int(argv[7]),
-        depth=int(argv[8]),
-        t_height=int(argv[9]),
-        t_width=int(argv[10]))
+        main_dir=str(argv[0]),
+        label_main_dir=str(argv[1]),
+        image_main_dir=str(argv[2]),
+        emotions_dir=str(argv[3]),
+        crop_faces=str(argv[4]),
+        neutral_label=str(argv[5]),
+        min_seq_len=int(argv[6]),
+        depth=int(argv[7]),
+        t_height=int(argv[8]),
+        t_width=int(argv[9]))
 
 
 if __name__ == "__main__":
