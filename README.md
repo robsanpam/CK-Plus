@@ -88,6 +88,6 @@ Run train.py defining the following arguments:
 
 For example:
 
-     python3 train.py  ~/ckp/emotion_images/  43 .1 .3 32 10
+     python train.py  ~/ckp/emotion_images/  43 .1 .3 32 10
 
 There are a lot of other parameters that can be tuned. Please feel free to modify whatever you want and have a happy training!
