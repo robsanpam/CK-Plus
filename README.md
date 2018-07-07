@@ -1,6 +1,10 @@
 # CK-Plus
 
-Keras implementation of C3D model on Extended Cohn-Kanade Dataset (CK+). C3D is a neural network that introduces 3D convolutions and pooling layers. For more information please refer to the original paper. 
+Keras implementation of C3D model on Extended Cohn-Kanade Dataset (CK+). 
+
+C3D is a neural network that introduces 3D convolutions and pooling layers. For more information please refer to the original paper:
+Tran, Du, et al. "[Learning Spatiotemporal Features With 3D Convolutional Networks](http://www.cv-foundation.org/openaccess/content_iccv_2015/html/Tran_Learning_Spatiotemporal_Features_ICCV_2015_paper.html)." Proceedings of the IEEE International Conference on Computer Vision. 2015.
+
 
 The user may define the following parameters upon calling the python script:
 
@@ -66,4 +70,4 @@ For example:
 
     python create_dataset.py ~/ckp/ ~/ckp/emotion_labels/ ~/ckp/cohn-kanade-images/ ~/ckp/emotion_images/ 1 0 9 3 112 112
 
-This script will add a folder per emotion to ~/ckp/emotion_images/ and fill them with Numpy binary files. Each file will have an image sequence with the shape (depth, t_height, t_width, channels). For every file added to an emotion folder, another one will be added to the neutral folder. 
+This script will add a folder per emotion to ~/ckp/emotion_images/ and fill them with Numpy binary files. Each file will have an image sequence with the shape (depth, t_height, t_width, channels) = (3, 112, 112, 3). For every file added to an emotion folder, another one will be added to the neutral folder. 
