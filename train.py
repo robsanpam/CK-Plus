@@ -16,6 +16,20 @@ from keras import optimizers
 
 
 def recover_3darrays(emotions_dir, neutral_instances):
+    """Generates a single X, y arrays using all Numpy binary file.
+
+      Args:
+        emotions_dir: String path to folder with emotion folders.
+        neutral_instances: Number of neutral instances to add to the X, y 
+            arrays. Given the high number of neutral instances that are
+            generated, even with a low class weight in the training phase 
+            the model will have a poor performance. A good choice can be 
+            a number between 30 - 50.
+
+      Returns:
+        An array X with all 3D images on the dataset.
+        An array y with the labels of all 3D images on the dataset.
+    """
 
     labels = sorted(os.listdir(emotions_dir))
 
@@ -56,6 +70,20 @@ def recover_3darrays(emotions_dir, neutral_instances):
 
 
 def train_test_valid_split(X, y, test_size, valid_size):
+    """Generates the train, test and validation datasets.
+
+      Args:
+        X: Numpy array with all input images.
+        y: Numpy array with all labels.
+        test_size: Float percentage in the range (0, 1) of images
+            used in test set.
+        valid_size: Float percentage in the range (0, 1) of images
+            used in validation set.
+        
+      Returns:
+        Arrays of images and labels for each data partition. 
+    """
+
     total_size = len(y)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size)
@@ -66,6 +94,16 @@ def train_test_valid_split(X, y, test_size, valid_size):
 
 
 def create_model(input_tensor=None, input_shape=None, classes=7):
+    """Creates C3D model with 3 more fully connected layers.
+
+      Args:
+        input_tensor: Tensor image to be processed
+        input_shape: String tuple (height, width, channels) of input image
+        classes: Integer number of classes
+        
+      Returns:
+        Keras neural network model. 
+    """
 
     K.set_image_data_format("channels_last")
 
@@ -181,6 +219,7 @@ def create_model(input_tensor=None, input_shape=None, classes=7):
 
     return model
 
+
 def main(argv):
 
     emotions_dir = str(argv[0])
@@ -189,13 +228,13 @@ def main(argv):
     test_split = float(argv[3])
     batch_size = int(argv[4])
     epochs = int(argv[5])
-    
+
     try:
-        assert (valid_split+test_split<.9)
+        assert (valid_split + test_split < .9)
     except AssertionError as e:
         print('Please check the validation and test set sizes.')
         raise
-    
+
     X, y = recover_3darrays(emotions_dir, neutral_instances=neutral_instances)
 
     y_counts = np.sum(y, axis=0, dtype=np.int32)
@@ -247,9 +286,9 @@ def main(argv):
 
     scores = model.evaluate(X_test, y_test)
     print("Accuracy: %.2f%%" % (scores[1] * 100))
-    
+
     print("\nDisplaying accuracy curves...")
-    
+
     # Accuracy Curves
     plt.figure(figsize=[8, 6])
     plt.plot(history.history['acc'], 'r', linewidth=3.0)
@@ -261,7 +300,7 @@ def main(argv):
     plt.show()
 
     print("\nSaving model and weights...")
-    
+
     # serialize model to JSON
     model_json = model.to_json()
     with open("model.json", "w") as json_file:
@@ -270,6 +309,6 @@ def main(argv):
     model.save_weights("weigths.h5")
     print("\nModel and weights saved to disk.\n")
 
-    
+
 if __name__ == "__main__":
     main(sys.argv[1:])
