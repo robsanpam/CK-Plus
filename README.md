@@ -1,4 +1,4 @@
-# CK-Plus
+# Keras - C3D - CK+
 
 Keras implementation of C3D model on Extended Cohn-Kanade Dataset (CK+). 
 
