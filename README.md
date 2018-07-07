@@ -48,26 +48,46 @@ Make sure to install the necessary packages:
 - scikit-learn
 - keras
 
-# Running the code
+## Running the code
 
 To train the network, the following steps must be followed.
+
+# Creating the 3D dataset
 
 Run create_dataset.py defining the following arguments:
 
       python create_dataset.py \
-      main_dir \ 
-      labels_main_dir \ 
-      images_main_dir \
-      emotions_dir crop \
-      crop_faces \
-      neutral_label \
-      min_seq_len \
-      depth \ 
-      t_height \
-      t_width
+      main_dir \            
+      labels_main_dir \     
+      images_main_dir \     
+      emotions_dir \      
+      crop_faces \        # Boolean (1, 0, True, False) to crop or no faces
+      neutral_label \     # String name of neutral label
+      min_seq_len \       # Integer minimum sequence length
+      depth \             # Integer number of frames per sequence
+      t_height \          # Integer new image height
+      t_width             # Integer new image width
 
 For example:
 
-    python create_dataset.py ~/ckp/ ~/ckp/emotion_labels/ ~/ckp/cohn-kanade-images/ ~/ckp/emotion_images/ 1 0 9 3 112 112
+    python create_dataset.py ~/ckp/ ~/ckp/emotion_labels/ ~/ckp/cohn-kanade-images/ ~/ckp/emotion_images/ True 0 9 3 112 112
 
 This script will add a folder per emotion to ~/ckp/emotion_images/ and fill them with Numpy binary files. Each file will have an image sequence with the shape (depth, t_height, t_width, channels) = (3, 112, 112, 3). For every file added to an emotion folder, another one will be added to the neutral folder. 
+
+# Training the network
+
+Run train.py defining the following arguments:
+
+    python train.py \
+    emotions_dir \        
+    neutral_instances \   # Number of neutral instances to use
+    valid_split \         # Percentage of dataset to use as validation set
+    test_split \          # Percentage of dataset to use as test set
+    batch_size \          # Batch size
+    epochs                # Epochs
+
+For example:
+
+     python3 train.py  ~/ckp/emotion_images/  43 .1 .3 32 10
+
+There are a lot of other parameters that can be tuned. Please feel free to modify whatever you want and have a happy training!
