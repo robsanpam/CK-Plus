@@ -52,7 +52,7 @@ Make sure to install the necessary packages:
 
 To train the network, the following steps must be followed.
 
-# Creating the 3D dataset
+### Creating the 3D dataset
 
 Run create_dataset.py defining the following arguments:
 
@@ -74,7 +74,7 @@ For example:
 
 This script will add a folder per emotion to ~/ckp/emotion_images/ and fill them with Numpy binary files. Each file will have an image sequence with the shape (depth, t_height, t_width, channels) = (3, 112, 112, 3). For every file added to an emotion folder, another one will be added to the neutral folder. 
 
-# Training the network
+### Training the network
 
 Run train.py defining the following arguments:
 
