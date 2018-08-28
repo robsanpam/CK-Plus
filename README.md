@@ -50,18 +50,18 @@ Make sure to install the necessary packages:
 
 ## Running the code
 
-To train the network, the following steps must be followed.
+To train the network you must follow the next steps:
 
 ### Creating the 3D dataset
 
-Run create_dataset.py defining the following arguments:
+Run _create_dataset.py_ defining the following arguments:
 
       python create_dataset.py \
       main_dir \            
       labels_main_dir \     
       images_main_dir \     
       emotions_dir \      
-      crop_faces \        # Boolean (1, 0, True, False) to crop or no faces
+      crop_faces \        # Boolean (1, 0, True, False) select whether to crop the faces or not
       neutral_label \     # String name of neutral label
       min_seq_len \       # Integer minimum sequence length
       depth \             # Integer number of frames per sequence
